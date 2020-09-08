@@ -9,9 +9,13 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Fichier">
-                <MenuItem Header="_Nouveau"/>
+                <MenuItem Header="_Nouveau" Command="{Binding AddProductCommand}"/>
             </MenuItem>
         </Menu>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Content="Nouveau" Command="{Binding AddProductCommand}"/>
+            <Button Content="Clear selected" Command="{Binding ClearSelectedCommand}"/>
+        </ToolBar>
         <StackPanel DockPanel.Dock="Bottom">
             <TextBlock Text="{Binding SelectedProduct.Name}"/>
         </StackPanel>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 
 namespace _01_wpf_mvvm
 {
@@ -11,7 +12,9 @@ namespace _01_wpf_mvvm
     {
         private Product selectedProduct;
         private ObservableCollection<Product> products;
-       
+
+        public DelegateCommand<string> AddProductCommand { get; set; }
+        public DelegateCommand<string> ClearSelectedCommand { get; set; }
 
         public Product SelectedProduct
         {
@@ -20,6 +23,7 @@ namespace _01_wpf_mvvm
             {
                 selectedProduct = value;
                 OnPropertyChanged();
+                AddProductCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -38,7 +42,31 @@ namespace _01_wpf_mvvm
 
         public ProductViewModel()
         {
+            initCommands();
             initValues();
+        }
+
+        private void initCommands()
+        {
+            AddProductCommand = new DelegateCommand<string>(AddProduct, CanAddProduct);
+            ClearSelectedCommand = new DelegateCommand<string>(ClearSelected);
+        }
+
+        private bool CanAddProduct(string obj)
+        {
+            return SelectedProduct == null;
+        }
+
+        private void ClearSelected(string obj)
+        {
+            SelectedProduct = null;
+        }
+
+        private void AddProduct(string obj)
+        {
+            var currProduct = new Product { Name = "Undefinded" };
+            Products.Add(currProduct);
+            SelectedProduct = currProduct;
         }
 
         private void initValues()
